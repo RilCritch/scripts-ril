@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#
+# simple script inspired by the sparkline output in ArcoLinux's .bashrc
+#
+# author: RilCritch
+
+terminalwidth=$(tput cols)
+
+seq 1 $terminalwidth | sort -R | sparklines

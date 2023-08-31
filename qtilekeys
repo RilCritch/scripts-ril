@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#
+# DescriptionSimple script that uses Qtiles command line interface to print out keybindings -- need to improve output
+# 
+# Dependencies: cmdrunandwait, clr, lineacross
+#
+# author: RilCritch
+
+qtilecmd="qtile cmd-obj -o cmd -f display_kb"
+pythonform="python -c 'import sys; print(eval(sys.stdin.read()))'"
+
+# wmkeys.sh | sed 's/mod4/super/g'
+# printkeys="$qtilecmd | $pythonform | tail -n +3 | cut -d ' '  -f2- | sed 's/^[[:space:]]*//' | sed 's/mod4/super/g' | sed -r 's/super,[[:space:]]?([^[:space:]]+)/super,\1/g'"
+printkeys="$qtilecmd | $pythonform | tail -n +3 | cut -d ' '  -f2- | sed 's/^[[:space:]]*//' | sed 's/mod4/super/g'"
+$HOME/mydots/scripts/cmdrunandwait "$printkeys"

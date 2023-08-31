@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Author: RilCritch
+
+# Last update: 07/07/23
+
+# Description: script that runs fzf on files and opens kitty on specified dir
+
+# get directory
+choice=$(find $HOME -type d | fzf --color='border:0,pointer:5,bg+:-1,hl:7,hl+:4,fg:8,fg+:7,info:15,header:4,spinner:6' --header-first --reverse --prompt='▶ ' --pointer='󱦰' --preview 'exa --tree -la --icons -F -L=2 --group-directories-first --no-filesize --no-user --time-style='long-iso' {}')
+
+if [ -n "$choice" ]; then
+	# setsid kitty -d $choice
+	qtile cmd-obj -o cmd -f spawn -a "kitty -d $choice"
+fi

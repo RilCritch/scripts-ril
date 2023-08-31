@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+#
+# a basic script that prints a title with a specified string (default: terminal name)
+# arguments: 1: string 2: color of lineacross; 3: color of figlet;
+# color options: black, red, green yellow, blue, magenta, cyan, white (add L to end for light variant)
+# 
+# author: RilCritch
+# 
+# dependcies: 
+#             non-custom: figlet
+#             custom:     linacross, clr, colors.sh    
+
+# source /home/rc/scripts/lineacross
+# source /home/rc/scripts/sparky
+# source /home/rc/scripts/clr
+
+# setting colors
+title=""
+lineacrosscolor=""
+figletcolor=""
+seperate=""
+
+if [ -z "$1" ];
+then
+  title=$TERM
+else
+  title=$1
+fi
+
+if [ -z "$2" ];
+then
+  lineacrosscolor="whiteL"
+else
+  lineacrosscolor=$2
+fi
+
+if [ -z "$3" ];
+then
+  figletcolor="whiteL"
+else
+  figletcolor=$3
+fi
+
+if [ -z "$4" ];
+then
+  seperate="-k" 
+fi
+
+# output
+# lineacross | clr $lineacrosscolor
+
+figlet -w $(tput cols) -c "${title}" -f smslant $seperate | clr $figletcolor
+
+lineacross | clr $lineacrosscolor

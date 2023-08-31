@@ -1,0 +1,112 @@
+#!/usr/bin/env bash
+#
+# basic script for colorizing output
+#
+# author: RilCritch
+
+scriptdir="$(dirname "$(readlink -f "$0")")"
+
+source $scriptdir/resources/colors.sh
+
+printhelp () {
+  echo -e "${red}ERROR: incorrect usage.${reset}"
+  echo "Usage:"
+  echo "- To use clr you must pipe into it."
+  echo -e "  * For example: 'ls | clr <optionalcolor>)'.\n"
+  echo "- You can specify the terminal color that clr will use (default: whiteL)."
+  echo "  * Color options: black (or bk)"
+  echo "                   red (or rd)"
+  echo "                   green (or gn)"
+  echo "                   yellow (or yw)"
+  echo "                   blue (or be)"
+  echo "                   magenta (or ma)"
+  echo "                   cyan (or cn)"
+  echo -e "                   white (or we)\n"
+  echo "  * To use the light variant add a captital 'L' to the end of the color"
+  echo "    - For example: blackL (or bkL)"
+}
+
+if [ -t 0 ]; then
+  printhelp
+  exit 1
+fi
+
+coloroption=$1
+color=""
+
+case $coloroption in
+
+  "black" | "bk")
+    color=$black
+    ;;
+
+  "red" | "rd")
+    color=$red
+    ;;
+
+  "green" | "gn")
+    color=$green
+    ;;
+
+  "yellow" | "yw")
+    color=$yellow
+    ;;
+    
+  "blue" | "be")
+    color=$blue
+    ;;
+
+  "magenta" | "ma")
+    color=$magenta
+    ;;
+
+  "cyan" | "cn")
+    color=$cyan
+    ;;
+
+  "white" | "we")
+    color=$white
+    ;;
+
+  "blackL" | "bkL")
+    color=$blackL
+    ;;
+
+  "redL" | "rdL")
+    color=$redL
+    ;;
+
+  "greenL" | "gnL")
+    color=$greenL
+    ;;
+
+  "yellowL" | "ywL")
+    color=$yellowL
+    ;;
+
+  "blueL" | "beL")
+    color=$blueL
+    ;;
+
+  "magentaL" | "maL")
+    color=$magentaL
+    ;;
+
+  "cyanL" | "cnL")
+    color=$cyanL
+    ;;
+
+  "whiteL" | "weL" | "" | " " | "  ")
+    color=$whiteL
+    ;;
+
+  *)
+    printhelp
+    exit 2
+    ;;
+esac
+
+while IFS= read -r line; do
+  echo -e "${color}$line"
+done
+echo -e -n "${reset}"

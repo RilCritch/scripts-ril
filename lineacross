@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#
+# Simple script for printing a colored line across the terminal window
+#
+# author: RilCritch
+
+terminalwidth=$(tput cols)
+
+for (( i=1 ; i<=$terminalwidth ; i++ ));
+do
+  echo -n "-"
+done
+
+echo
