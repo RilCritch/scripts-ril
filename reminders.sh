@@ -25,6 +25,7 @@ reminders_file_check() {
 		echo "'${USER}' has no reminders directory" | clr yellow
 		echo -n "creating directory at "
 		echo "'$userdir'" | clr blue
+		\mkdir -p "$userdir"
 		echo
 	fi
 
