@@ -6,4 +6,4 @@
 
 terminalwidth=$(tput cols)
 
-seq 1 $terminalwidth | sort -R | sparklines
+seq 1 $terminalwidth | sort -R | spark
