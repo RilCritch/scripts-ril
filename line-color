@@ -1,0 +1,53 @@
+#!/usr/bin/env sh
+
+fancyLine () {
+  if [ -z "$1" ]; then
+    color="black"
+  else
+    color=$1
+  fi
+
+  lineacross "/" | clr "$color"
+}
+
+lineacross | clr blackL
+
+fancyLine "black"
+fancyLine "blackL"
+
+# lineacross  "*" | clr blackL
+
+fancyLine "red"
+fancyLine "redL"
+
+# lineacross  "*" | clr blackL
+
+fancyLine "green"
+fancyLine "greenL"
+
+# lineacross  "*" | clr blackL
+
+fancyLine "yellow"
+fancyLine "yellowL"
+
+# lineacross  "*" | clr blackL
+
+fancyLine "blue"
+fancyLine "blueL"
+
+# lineacross  "*" | clr blackL
+
+fancyLine "magenta"
+fancyLine "magentaL"
+
+# lineacross  "*" | clr blackL
+
+fancyLine "cyan"
+fancyLine "cyanL"
+
+# lineacross  "*" | clr blackL
+
+fancyLine "white"
+fancyLine "whiteL"
+
+lineacross | clr blackL

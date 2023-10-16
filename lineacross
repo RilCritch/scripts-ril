@@ -6,9 +6,16 @@
 
 terminalwidth=$(tput cols)
 
+if [ -z "$1" ]; then
+  character="-"
+else
+  character="$1"
+
+fi
+
 for (( i=1 ; i<=$terminalwidth ; i++ ));
 do
-  echo -n "-"
+  echo -n "$character"
 done
 
 echo
