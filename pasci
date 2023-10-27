@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# Runs the echo command on the contents of a specified file
+# Processing ansi escape codes so output is styled
+
+user_file=$1
+
+if [[ -z $user_file ]]; then
+    echo "Please provide a text file."
+    exit 22
+
+elif [[ ! -f $user_file ]]; then
+    echo "The file '$user_file' does not exist."
+    exit 2
+fi
+
+# Print contents so ansi escape sequences are recognized
+echo -ne "$(<$user_file)" \\n
