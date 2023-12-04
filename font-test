@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Prints out characters to see how a font is
+
+# Ansi escape codes for styling
+blue='\033[34m'
+bold='\033[1m'
+underline='\033[4m'
+reset='\033[0m'
+
+# Characters
+echo -e "${blue}Regular  ${reset}ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+echo "         abcdefghijklmnopqrstuvwxyz"
+echo -e "         1234567890 / \\ <> () [] {}"
+echo -e "         !@#$%^&*?| \" ' -_ =+ \`~ ,."
+echo -e "         oO08 iIlL1 g9qCGQ =>\n"
+
+echo -e "${blue}Bold     ${reset}${bold}ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+echo -e "${bold}         abcdefghijklmnopqrstuvwxyz"
+echo -e "${bold}         1234567890 / \\ <> () [] {}"
+echo -e "${bold}         !@#$%^&*?| \" ' -_ =+ \`~ ,."
+echo -e "${bold}         oO08 iIlL1 g9qCGQ =>${reset}"
