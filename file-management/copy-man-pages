@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+# copy man pages from current directory (default) or specified directory to man database and update database
+
+
+# takes argument for where man pages are located
+[[ -d "$1" ]] && SOURCE_DIR="$1" || SOURCE_DIR="$(pwd)"
+
+MAN_LOC="/usr/share/man"
+
+# copy man pages from source dir to man section
+for file in "${SOURCE_DIR}"/*; do
+    if [ -f "$file" ]; then
+
+        file_extension="${file##*.}"
+
+        if [[ "$file_extension" =~ ^[0-9]+$ ]]; then
+
+            # is man page
+            echo "Man page found: ${file}!"
+            DEST="${MAN_LOC}/man${file_extension}"
+
+            mkdir -p "${DEST}"
+
+            sudo cp "${file}" "${DEST}"
+            echo "Coppied ${file} to ${DEST}"
+
+        fi
+    fi
+done
+
+# update man db
+sudo mandb
+echo "Man databse updated."

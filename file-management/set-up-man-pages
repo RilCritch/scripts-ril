@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Script for setting up all man pages that have been manually installed in this directory
+# This is because some package managers don't install man pages
+
+# Colors
+source "${HOME}/Repos/bash-ril/ansi_escape_sequences"
+
+echo -e "${yellow}Converting man pages...${reset}"
+echo
+
+# Cargo applications
+echo "Cargo installed software"
+
+CARGO_SOURCE="$(realpath ./cargo/source)"
+CARGO_OUTPUT="$(realpath ./cargo)"
+
+echo -e "${white}markdown${reset} ${black}-> ${cyan}manpage${reset} \
+${black}=> ${blue}${CARGO_OUTPUT}${reset}"
+echo
+
+./tools/md-to-man "${CARGO_SOURCE}" "${CARGO_OUTPUT}" # markdown to man
+
+echo
+echo "Cargo software conversion complete."
+echo "Copying cargo software manpages to database"
+echo
+
+./tools/copy-man-pages "${CARGO_OUTPUT}"

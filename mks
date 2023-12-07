@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+# create executable script at specified location (arg 1)
+# or default is "./script{NN}.sh"
+
+
+# Colors
+source "${HOME}/Data/styles"
+
+
+# Set path and file name #
+# filename
+if [[ -n "$1" ]]; then
+    FILE_NAME="$1"
+else
+    COUNT=1
+    PREFIX="./script"
+    SUFFIX="${COUNT}.sh"
+    while [[ -e "${PREFIX}${SUFFIX}" ]]; do
+        ((COUNT++))
+        SUFFIX="${COUNT}.sh"
+    done
+    FILE_NAME="${PREFIX}${SUFFIX}"
+fi
+
+# directory
+DIRECTORY="$(dirname "$FILE_NAME")"
+if [[ ! -d "${DIRECTORY}" ]]; then
+    echo -e "${bold}${red}ERROR:${reset} ${yellow}specified path does not exist${reset}"
+    echo
+
+    echo "To create this path the follow command may be run:"
+    echo -e "'${cyan}mkdir -p ${blue}${DIRECTORY}${reset}'"
+    read -p "Do you want to run this command? [Y/n] " DOWNLOAD
+
+    if [[ -z "${DOWNLOAD}" || "${DOWNLOAD}" == "Y" || "${DOWNLOAD}" == "y" ]]; then
+        mkdir -p "${DIRECTORY}"
+    else
+        echo "Goodbye."
+        exit 1
+    fi
+fi
+echo
+
+
+# create executable bash script
+touch ${FILE_NAME}
+echo '#!/usr/bin/env bash' > ${FILE_NAME}
+chmod +x "${FILE_NAME}"
+
+echo -e "${cyan}Successfully create executable script!${reset}"
+echo -e "Location: ${blue}${FILE_NAME}"

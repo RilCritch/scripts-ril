@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# convert markdown man pages to roff
+
+source "${HOME}/Repos/bash-ril/ansi_escape_sequences"
+
+# OUTPUT_DIR="pwd"
+
+# takes argument of where to get files for conversion
+[[ -d "$1" ]] && SOURCE_DIR="$1" || SOURCE_DIR="$(pwd)"
+
+# takes second argument of where to store files
+[[ -d "$2" ]] && OUTPUT_DIR="$2" || OUTPUT_DIR="$(pwd)"
+
+# complete conversion 
+for mdfile in "$SOURCE_DIR"/*.md; do
+    name=$(basename "$mdfile" .md)
+    pandoc "$mdfile" -s -t man -o "$name"
+
+    echo -e "${white}${mdfile}${reset} ${black}--> ${blue}${name}${reset}"
+
+    mv "${name}" "${OUTPUT_DIR}/"
+done
