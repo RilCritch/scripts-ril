@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
-# retrieve clipboard history -- dependant on clipster
-options=$(clipster -c -o -n 0 | grep -P '\S') # grep to remove empty spaces
+# Set fzf values so this works when run from window manager
+export FZF_DEFAULT_OPTS="--header-first \
+--reverse --no-scrollbar --border \
+--prompt=' ' --pointer='▶' --marker='󱦰' \
+--color='fg:0,fg+:7,bg:-1,bg+:-1,\
+hl:-1,hl+:6,info:15,border:8,header:4,\
+prompt:6,pointer:4,spinner:3'"
 
-# retrieve selection using fzf
-selection=$(printf '%s\n' "${options[@]}" | \fzf --color='border:0,label:5,pointer:5,bg+:-1,gutter:-1,hl:7,hl+:4,fg:8,fg+:7,info:0,header:4,spinner:6' --header-first --reverse --prompt='󱃔  ' --pointer='󰮺' --no-scrollbar --layout=reverse --border=double --border-label=' Clipboard History ' --height=100% --separator='󰇼')
-
-# if there was a selection add it to front of clipboard history
-if [ -n "$selection" ]; then
-	echo -n "$selection" | xclip -selection clipboard
-fi
+clipcat-menu
