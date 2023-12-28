@@ -1,0 +1,208 @@
+#!/usr/bin/env bash
+
+# Script for better git status overview for a git repository
+
+# Output colors and style
+black='\033[30m'
+l_black='\033[90m'
+red='\033[31m'
+green='\033[32m'
+yellow='\033[33m'
+blue='\033[34m'
+magenta='\033[35m'
+cyan='\033[36m'
+white='\033[37m'
+l_white='\033[97m'
+
+dim='\033[2m'
+bold='\033[1m'
+italic='\033[3m'
+underline='\033[4m'
+reset='\033[0m'
+
+# Output helper
+dash_output () { # default length is 5 dashes
+    if [[ -n "$1" ]]; then
+        str_len=${#1}
+        word_space=$((str_len + 1))
+        term_width=$(tput cols)
+        num_of_dashes=$((term_width - word_space))
+    else
+        num_of_dashes=5
+    fi
+
+    dashes=""
+    for ((i = 0; i < num_of_dashes; i++)); do
+        dashes+="━"
+    done
+
+    echo "${dashes}"
+}
+
+last_commit () {
+    last_log=$(git --no-pager log -1 --format=%ct)
+    current_time=$(date +%s)
+
+    time_since=$((current_time - last_log)) # initially in seconds
+
+    # return the unit of time that makes the most sense
+    if [[ ${time_since} -lt 60 ]]; then # less than min
+        if [[ ${time_since} -gt 1 ]]; then
+            echo "${time_since} seconds ago"
+        else
+            echo "${time_since} second ago"
+        fi
+    elif [[ ${time_since} -lt 3600 ]]; then # less than hour
+        time_since=$((time_since / 60))
+        if [[ ${time_since} -gt 1 ]]; then
+            echo "${time_since} minutes ago"
+        else
+            echo "${time_since} minute ago"
+        fi
+    elif [[ ${time_since} -lt 86400 ]]; then # less than day
+        time_since=$((time_since / 3600))
+        if [[ ${time_since} -gt 1 ]]; then
+            echo "${time_since} hours ago"
+        else
+            echo "${time_since} hour ago"
+        fi
+    elif [[ ${time_since} -lt 604800 ]]; then # less than week
+        time_since=$((time_since / 86400))
+        if [[ ${time_since} -gt 1 ]]; then
+            echo "${time_since} days ago"
+        else
+            echo "${time_since} day ago"
+        fi
+    else # weeks
+        time_since=$((time_since / 604800))
+        if [[ ${time_since} -gt 1 ]]; then
+            echo "${time_since} weeks ago"
+        else
+            echo "${time_since} week ago"
+        fi
+    fi
+}
+
+# Ensure the script is called inside of a git repo
+top_level_path=$(git rev-parse --show-toplevel 2> /dev/null)
+if [[ ! -n "$top_level_path" ]]; then
+    echo -e "${red}${bold}ERROR:${reset} You are not currently located in a git repository."
+    echo -e "${yellow}Please run this script from inside a git repository.${reset}"
+    exit
+fi
+
+
+# Retrieve and process local git repo status
+readarray -t status_array <<< "$(git status --porcelain=v1)"
+
+added=0
+deleted=0
+modified=0
+renamed=0
+untracked=0
+other=0
+
+for status_element in "${status_array[@]}"; do
+    status_of_file="$(echo ${status_element} | awk '{print $1}')"
+
+    # status_description="$(echo ${status_element} | awk '{$1=""; sub(/^ +/, ""); print}')"
+    # echo -e "${status_of_file} -- ${status_description}"
+
+    case "${status_of_file}" in
+        "A")
+            ((added++))
+            ;;
+        "D")
+            ((deleted++))
+            ;;
+        "M")
+            ((modified++))
+            ;;
+        "R")
+            ((renamed++))
+            ;;
+        "??")
+            ((untracked++))
+            ;;
+        *)
+            ;;
+    esac
+done
+
+# --- --- --- Print results --- --- --- #
+# --- General Info --- #
+# info title
+echo -e "${l_black}${dim}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓"
+echo -e "${l_black}${dim}┃${reset}${cyan}${bold}  Git Repository Information ${reset}${l_black}${dim}┣$(dash_output '    Git Repository Information')${reset}"
+echo -e "${l_black}${dim}┡┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
+
+# system location
+echo -e "${l_black}${dim}╰┃ ${reset}${blue}󰆌 \
+${reset}${dim}Location ${reset}${l_black} \
+${blue}${top_level_path}${reset}"
+
+# current branch
+branch_name=$(git branch --show-current)
+echo -e "${l_black}${dim} ┃ ${reset}${cyan}󰷹 \
+${reset}${dim}Branch   ${reset}${l_black} \
+${cyan}${branch_name^^}${reset}"
+
+# remote location
+remote_loc=$(git remote get-url origin 2> /dev/null) # need to add test
+if [[ -n "$remote_loc" ]]; then
+    echo -e "${l_black}${dim}╭┃ ${reset}${blue}󰊤 \
+${reset}${dim}Remote   ${reset}${l_black} \
+${blue}${remote_loc}${reset}"
+else
+    echo -e "${l_black}${dim}╭┃ ${blue}󰊤 \
+${l_black}Remote    \
+No origin configured${reset}"
+fi
+
+# last commit
+branch_name=$(git branch --show-current)
+echo -e "${l_black}${dim}│┃ ${reset}${cyan}󰦖 \
+${reset}${dim}Updated  ${reset}${l_black} \
+${cyan}$(last_commit)${reset}"
+
+# --- Status --- #
+# status title
+# echo -e "${yellow}󰣕 Status of Changes ${reset}${l_black}${dim}$(dash_output '󰣕 Status of Changes                                               ')${reset}"
+echo -e "${l_black}${dim}┢┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓"
+echo -e -n "${l_black}${dim}┃${reset}${blue} 󰣕 Status of Changes ${l_black}${dim}│${reset} "
+
+remote_loc=$(git remote get-url origin 2> /dev/null) # need to add test
+if [[ -n "$remote_loc" ]]; then
+    echo -e "${reset}${cyan} \
+${reset}${cyan}${bold}$(git rev-list --count @{upstream}..HEAD) \
+${reset}${red} ${reset}${red}${bold}$(git rev-list --count HEAD..@{upstream}) ${l_black}${dim}┃"
+else
+    echo -e "${l_black}${dim} 0  0 ┃"
+fi
+
+echo -e "${l_black}${dim}┡┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
+
+
+echo -e -n "${l_black}${dim}│┃ ${reset}${cyan} ${reset}${dim}Added    ${l_black}${dim} \
+${reset}${cyan}${bold}${added} ${l_black}${dim}╷ "
+echo -e "${reset}${red} ${reset}${dim}Removed   ${l_black}${dim} ${reset}${red}${bold}${deleted}"
+
+echo -e "${l_black}${dim}╰┃ ───────────────┼────────────────"
+
+echo -e -n "${l_black}${dim}╭┃ ${reset}${blue} ${reset}${dim}Modified ${l_black}${dim} \
+${reset}${blue}${bold}${modified} ${l_black}${dim}╵ "
+echo -e "${reset}${yellow} ${reset}${dim}Untracked ${l_black}${dim} ${reset}${yellow}${bold}${untracked}"
+
+# echo -e "${l_black}${dim}╭┃ ${reset}${yellow} ${reset}${dim}Renamed   ${l_black}${dim} \
+# ${reset}${yellow}${bold}${renamed}${reset}"
+
+
+echo -e "${l_black}${dim}┕┻$(dash_output ' ')${reset}"
+# echo -e "${l_black}${dim} ┗━━━━━━━━━━━━━"
+
+
+# Processing the status of local repo with remote
+# Count of how ahead local branch is to remote
+# git rev-list --count @{upstream}..HEAD
+# Count of how behind local branch is to remote
+# git rev-list --count HEAD..@{upstream}

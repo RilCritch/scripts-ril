@@ -12,6 +12,6 @@
 # fi
 
 top_level_path=$(git rev-parse --show-toplevel)
-# echo $top_level_path
+echo $top_level_path
 top_level_name=$(basename "$top_level_path")
 echo "$top_level_name"
