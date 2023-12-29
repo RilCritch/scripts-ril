@@ -2,6 +2,11 @@
 
 # Script for better git status overview for a git repository
 
+# TODO: Combine git repo name and [branch]
+# TODO: Change Remote name to cyan
+# TODO: Move most resent commit time next to git info title
+# TODO: Change status to single letters instead of full name
+
 # Output colors and style
 black='\033[30m'
 l_black='\033[90m'
@@ -129,80 +134,115 @@ for status_element in "${status_array[@]}"; do
     esac
 done
 
-# --- --- --- Print results --- --- --- #
-# --- General Info --- #
-# info title
-echo -e "${l_black}${dim}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓"
-echo -e "${l_black}${dim}┃${reset}${cyan}${bold}  Git Repository Information ${reset}${l_black}${dim}┣$(dash_output '    Git Repository Information')${reset}"
-echo -e "${l_black}${dim}┡┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
+# --- --- --- Print Results --- --- --- #
 
-# system location
-echo -e "${l_black}${dim}╰┃ ${reset}${blue}󰆌 \
-${reset}${dim}Location ${reset}${l_black} \
-${blue}${top_level_path}${reset}"
+# General Repo Info --------------------------------------------------------------
 
-# current branch
+# Repo Info Title ------------------------------------------
+echo -e "${l_black}${dim}\
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳\
+$(dash_output '                               ')"
+#
+echo -e "\
+┃${reset}${cyan}${bold}  Git Repository Information \
+${reset}${l_black}${dim}┃"
+#
+echo -e "\
+┡┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
+# ----------------------------------------------------------
+
+# Git Directory Name ---------------------------------------
+top_level_name=$(basename "${top_level_path}")
+#
+echo -e "\
+╰┃ ${reset}${blue}󰆌 ${white}Name    \
+${black} ${blue}${top_level_name^^}"
+# ----------------------------------------------------------
+
+# Git Branch -----------------------------------------------
 branch_name=$(git branch --show-current)
-echo -e "${l_black}${dim} ┃ ${reset}${cyan}󰷹 \
-${reset}${dim}Branch   ${reset}${l_black} \
-${cyan}${branch_name^^}${reset}"
+#
+echo -e "${l_black}${dim} \
+┃ ${reset}${cyan}󰷹 ${white}Branch  \
+${black} ${cyan}${branch_name^^}"
+# ----------------------------------------------------------
 
-# remote location
-remote_loc=$(git remote get-url origin 2> /dev/null) # need to add test
+# Remote Location ------------------------------------------
+remote_loc=$(git remote get-url origin 2> /dev/null)
+remote_name=$(echo ${remote_loc} | sed 's/git@github\.com:\(.*\)\.git/\1/')
+#
+echo -e -n "${l_black}${dim}\
+╭┃ "
 if [[ -n "$remote_loc" ]]; then
-    echo -e "${l_black}${dim}╭┃ ${reset}${blue}󰊤 \
-${reset}${dim}Remote   ${reset}${l_black} \
-${blue}${remote_loc}${reset}"
+     echo -e "${reset}${blue}󰊤 ${white}Remote  \
+${black} ${blue}${remote_name}"
 else
-    echo -e "${l_black}${dim}╭┃ ${blue}󰊤 \
-${l_black}Remote    \
-No origin configured${reset}"
+    echo -e "${blue}󰊤 ${l_black}Remote  \
+${black} No origin configured"
 fi
+# ----------------------------------------------------------
 
-# last commit
+# Time of Last Commint -------------------------------------
 branch_name=$(git branch --show-current)
-echo -e "${l_black}${dim}│┃ ${reset}${cyan}󰦖 \
-${reset}${dim}Updated  ${reset}${l_black} \
-${cyan}$(last_commit)${reset}"
+#
+echo -e "${l_black}${dim}\
+│┃ ${reset}${cyan}󰦖 ${white}Updated \
+${black} ${cyan}$(last_commit)"
+# ----------------------------------------------------------
+# --------------------------------------------------------------------------------
 
-# --- Status --- #
-# status title
-# echo -e "${yellow}󰣕 Status of Changes ${reset}${l_black}${dim}$(dash_output '󰣕 Status of Changes                                               ')${reset}"
-echo -e "${l_black}${dim}┢┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓"
-echo -e -n "${l_black}${dim}┃${reset}${blue} 󰣕 Status of Changes ${l_black}${dim}│${reset} "
-
-remote_loc=$(git remote get-url origin 2> /dev/null) # need to add test
+# Git Status ---------------------------------------------------------------------
+# Status Title ---------------------------------------------
+echo -e "${l_black}${dim}\
+┢┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓"
+#
+echo -e -n "\
+┃${reset}${blue}${bold} 󰣕 Status of Changes \
+${l_black}${dim}│ "
+#
+# ahead/behind -----------
+remote_loc=$(git remote get-url origin 2> /dev/null)
+#
 if [[ -n "$remote_loc" ]]; then
-    echo -e "${reset}${cyan} \
-${reset}${cyan}${bold}$(git rev-list --count @{upstream}..HEAD) \
-${reset}${red} ${reset}${red}${bold}$(git rev-list --count HEAD..@{upstream}) ${l_black}${dim}┃"
+    echo -e -n "${reset}\
+${cyan} ${bold}$(git rev-list --count @{upstream}..HEAD) \
+${reset}${red} ${bold}$(git rev-list --count HEAD..@{upstream}) "
 else
-    echo -e "${l_black}${dim} 0  0 ┃"
+    echo -e -n " 0  0 "
 fi
+echo -e "${l_black}${dim}┃"
+# ------------------------
+#
+echo -e "\
+┡┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
+# ----------------------------------------------------------
 
-echo -e "${l_black}${dim}┡┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
+# Added / Removed Line -------------------------------------
+echo -e -n "\
+│┃ ${reset}${cyan} ${dim}A  \
+${reset}${black}  ${cyan}${bold}${added} ${l_black}${dim}╷ "
+#
+echo -e "\
+${reset}${red} ${dim}R  \
+${reset}${black}  ${red}${bold}${deleted}"
+# ----------------------------------------------------------
 
+# Seperator ------------------------------------------------
+echo -e "${l_black}${dim}\
+╰┃ ──────────┼──────────"
+# ----------------------------------------------------------
 
-echo -e -n "${l_black}${dim}│┃ ${reset}${cyan} ${reset}${dim}Added    ${l_black}${dim} \
-${reset}${cyan}${bold}${added} ${l_black}${dim}╷ "
-echo -e "${reset}${red} ${reset}${dim}Removed   ${l_black}${dim} ${reset}${red}${bold}${deleted}"
+# Modified / Untracked Line --------------------------------
+echo -e -n "\
+╭┃ ${reset}${blue} ${dim}M  \
+${reset}${black}  ${blue}${bold}${modified} ${l_black}${dim}╵ "
+#
+echo -e "\
+${reset}${yellow} ${dim}U  \
+${reset}${black}  ${yellow}${bold}${untracked}"
+# ----------------------------------------------------------
 
-echo -e "${l_black}${dim}╰┃ ───────────────┼────────────────"
-
-echo -e -n "${l_black}${dim}╭┃ ${reset}${blue} ${reset}${dim}Modified ${l_black}${dim} \
-${reset}${blue}${bold}${modified} ${l_black}${dim}╵ "
-echo -e "${reset}${yellow} ${reset}${dim}Untracked ${l_black}${dim} ${reset}${yellow}${bold}${untracked}"
-
-# echo -e "${l_black}${dim}╭┃ ${reset}${yellow} ${reset}${dim}Renamed   ${l_black}${dim} \
-# ${reset}${yellow}${bold}${renamed}${reset}"
-
-
-echo -e "${l_black}${dim}┕┻$(dash_output ' ')${reset}"
-# echo -e "${l_black}${dim} ┗━━━━━━━━━━━━━"
-
-
-# Processing the status of local repo with remote
-# Count of how ahead local branch is to remote
-# git rev-list --count @{upstream}..HEAD
-# Count of how behind local branch is to remote
-# git rev-list --count HEAD..@{upstream}
+# Bottom line ----------------------------------------------
+echo -e "${l_black}${dim}\
+┕┻$(dash_output ' ')${reset}"
+# ----------------------------------------------------------
