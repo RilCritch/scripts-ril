@@ -35,7 +35,7 @@ initializeANSI
 cat << EOF
 
 ${blackf}00000000${reset} ${redf}11111111${reset} ${greenf}22222222${reset} ${yellowf}33333333${reset} ${bluef}44444444${reset} ${purplef}55555555${reset} ${cyanf}66666666${reset} ${whitef}77777777${reset}
-${blackb}00000000${reset} ${redb}11111111${reset} ${greenb}22222222${reset} ${yellowb}33333333${reset} ${blueb}44444444${reset} ${purpleb}55555555${reset} ${cyanb}66666666${reset} ${whiteb}77777777${reset}
+${blackb}88888888${reset} ${redb}99999999${reset} ${greenb}AAAAAAAA${reset} ${yellowb}BBBBBBBB${reset} ${blueb}CCCCCCCC${reset} ${purpleb}DDDDDDDD${reset} ${cyanb}EEEEEEEE${reset} ${whiteb}FFFFFFFF${reset}
 
 EOF
 

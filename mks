@@ -46,6 +46,53 @@ echo
 # create executable bash script
 touch ${FILE_NAME}
 echo '#!/usr/bin/env bash' > ${FILE_NAME}
+echo '' >> ${FILE_NAME}
+
+echo '# Description ->' >> ${FILE_NAME}
+echo '#' >> ${FILE_NAME}
+
+echo '# |- Summary:' >> ${FILE_NAME}
+echo '#             - TODO: script explanation' >> ${FILE_NAME}
+echo '#' >> ${FILE_NAME}
+
+echo '# |- Usage: TODO: script syntax' >> ${FILE_NAME}
+echo '#       * Options:' >> ${FILE_NAME}
+echo '#             - TODO: script options/flags' >> ${FILE_NAME}
+echo '#       * Environ:' >> ${FILE_NAME}
+echo '#             - TODO: environment variables' >> ${FILE_NAME}
+echo '#' >> ${FILE_NAME}
+
+echo '# |- Dependencies:' >> ${FILE_NAME}
+echo '#             - TODO: script dependencies' >> ${FILE_NAME}
+echo '' >> ${FILE_NAME}
+
+echo '# Document Info ->' >> ${FILE_NAME}
+echo '#' >> ${FILE_NAME}
+
+echo "# |- Author: ${RCS_USERNAME}" >> ${FILE_NAME}
+echo '#' >> ${FILE_NAME}
+
+CURRENT_DATE=$(date +%m/%d/%Y)
+echo "# |- Last Update: ${CURRENT_DATE}" >> ${FILE_NAME}
+
+echo '' >> ${FILE_NAME}
+echo "# Imports - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> ${FILE_NAME}
+echo "# TODO: source files if needed" >> ${FILE_NAME}
+echo "# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> ${FILE_NAME}
+echo "" >> ${FILE_NAME}
+
+echo -e "\n# |- Comment ->\n" >> ${FILE_NAME}
+echo "# TODO: Place shell here" >> ${FILE_NAME}
+
+echo "" >> ${FILE_NAME}
+
+echo -e "\n# |- Comment ->\n" >> ${FILE_NAME}
+echo "# TODO: Place shell here" >> ${FILE_NAME}
+
+echo -e "\n" >> ${FILE_NAME}
+echo "# Vim options - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> ${FILE_NAME}
+echo '# vim:fileencoding=utf-8:foldmethod=marker' >> ${FILE_NAME}
+
 chmod +x "${FILE_NAME}"
 
 echo -e "${cyan}Successfully create executable script!${reset}"

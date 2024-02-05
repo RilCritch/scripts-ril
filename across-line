@@ -7,10 +7,15 @@
 terminalwidth=$(tput cols)
 
 if [ -z "$1" ]; then
+  word="-"
+else
+  word="$1"
+fi
+
+if [ -z "$2" ]; then
   character="-"
 else
-  character="$1"
-
+  character="$2"
 fi
 
 for (( i=1 ; i<=$terminalwidth ; i++ ));

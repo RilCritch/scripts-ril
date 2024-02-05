@@ -6,24 +6,36 @@
 
 scriptdir="$(dirname "$(readlink -f "$0")")"
 
-source $scriptdir/resources/colors.sh
+source $scriptdir/resources/styles.sh
 
 printhelp () {
   echo -e "${red}ERROR: incorrect usage.${reset}"
   echo "Usage:"
   echo "- To use clr you must pipe into it."
   echo -e "  * For example: 'ls | clr <optionalcolor>)'.\n"
-  echo "- You can specify the terminal color that clr will use (default: whiteL)."
-  echo "  * Color options: black (or bk)"
-  echo "                   red (or rd)"
-  echo "                   green (or gn)"
-  echo "                   yellow (or yw)"
-  echo "                   blue (or be)"
-  echo "                   magenta (or ma)"
-  echo "                   cyan (or cn)"
-  echo -e "                   white (or we)\n"
-  echo "  * To use the light variant add a captital 'L' to the end of the color"
-  echo "    - For example: blackL (or bkL)"
+  echo -e "- You can specify the terminal color that clr will use (default: whiteL or 15).\n"
+
+  echo -e "  |= Color options:\n"
+
+  echo -e "    |- Base Colors -|"
+  echo -e "    |   0 - black (or bk)"
+  echo -e "    |   1 - red (or rd)"
+  echo -e "    |   2 - green (or gn)"
+  echo -e "    |   3 - yellow (or yw)"
+  echo -e "    |   4 - blue (or be)"
+  echo -e "    |   5 - magenta (or ma)"
+  echo -e "    |   6 - cyan (or cn)"
+  echo -e "    |   7 - white (or we)\n"
+
+  echo -e "    |- Light Colors -|"
+  echo -e "    |   8  - blackL (or bkL)"
+  echo -e "    |   9  - redL (or rdL)"
+  echo -e "    |   10 - greenL (or gnL)"
+  echo -e "    |   11 - yellowL (or ywL)"
+  echo -e "    |   12 - blueL (or beL)"
+  echo -e "    |   13 - magentaL (or maL)"
+  echo -e "    |   14 - cyanL (or cnL)"
+  echo -e "    |   15 - whiteL (or weL)\n"
 }
 
 if [ -t 0 ]; then
@@ -69,35 +81,35 @@ case $coloroption in
     ;;
 
   "blackL" | "bkL")
-    color=$blackL
+    color=$l_black
     ;;
 
   "redL" | "rdL")
-    color=$redL
+    color=$l_red
     ;;
 
   "greenL" | "gnL")
-    color=$greenL
+    color=$l_green
     ;;
 
   "yellowL" | "ywL")
-    color=$yellowL
+    color=$l_yellow
     ;;
 
   "blueL" | "beL")
-    color=$blueL
+    color=$l_blue
     ;;
 
   "magentaL" | "maL")
-    color=$magentaL
+    color=$l_magenta
     ;;
 
   "cyanL" | "cnL")
-    color=$cyanL
+    color=$l_cyan
     ;;
 
   "whiteL" | "weL" | "" | " " | "  ")
-    color=$whiteL
+    color=$l_white
     ;;
 
   *)
