@@ -4,23 +4,24 @@
 #
 # author: RilCritch
 
+# Imports - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+. "${BASH_HOME}/ansi_escape_sequences"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 terminalwidth=$(tput cols)
 
 if [ -z "$1" ]; then
-  word="-"
+	character="─"
 else
-  word="$1"
+    if [[ "${#1}" -eq 1 ]]; then
+        character="$1"
+    else
+        echo -e "${red}ERROR:${reset} This script only supports single character strings"
+    fi
 fi
 
-if [ -z "$2" ]; then
-  character="-"
-else
-  character="$2"
-fi
-
-for (( i=1 ; i<=$terminalwidth ; i++ ));
-do
-  echo -n "$character"
+for ((i = 1; i <= terminalwidth; i++)); do
+	echo -n "$character"
 done
 
 echo
