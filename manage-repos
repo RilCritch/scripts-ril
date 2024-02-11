@@ -50,7 +50,10 @@ while [[ ${choice} != "" && ${choice} != "exit (or esc)" && "${#gita_ll[@]}" -ge
 
     if [[ ${choice} != "" && ${choice} != "exit (or esc)" ]]; then
         lazygit --path="$(echo "${repos_path}/${choice}" | awk '{print $1}')"
-        mapfile -t gita_ll < <(retrieve_gita_status)
+    fi
+    mapfile -t gita_ll < <(retrieve_gita_status)
+    if [[ "${#gita_ll[@]}" -le 0 ]]; then
+        echo -e "${cyan}All of your repositories are up to date!${reset}"
     fi
 done
 
