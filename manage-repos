@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+# Description ->
+#
+# |- Summary:
+#             - TODO: script explanation
+#
+# |- Usage: TODO: script syntax
+#       * Options:
+#             - TODO: script options/flags
+#       * Environ:
+#             - TODO: environment variables
+#
+# |- Dependencies:
+#             - TODO: script dependencies
+
+# Document Info ->
+#
+# |- Author: 
+#
+# |- Last Update: 02/10/2024
+
+# Imports - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+. "${BASH_HOME}/ansi_escape_sequences"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Functions - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+retrieve_gita_status() {
+    gita ll | grep '\[.\]' | awk '{print $1, $3}'
+}
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+# |- Retrieve Data ->
+repos_path="${HOME}/Repos"
+mapfile -t gita_ll < <(retrieve_gita_status)
+
+if [[ "${#gita_ll[@]}" -le 0 ]]; then
+    echo
+    echo -e "${cyan}All of your repositories are up to date!${reset}"
+    echo
+    exit 0
+fi
+
+# |- Prompt user to manage repos ->
+choice="notempty"
+while [[ ${choice} != "" && ${choice} != "exit (or esc)" && "${#gita_ll[@]}" -ge 0 ]]; do
+    fzf_options=("${gita_ll[@]}")
+    fzf_options+=("exit (or esc)")
+
+    choice=$(printf "%s\n" "${fzf_options[@]}" | fzf --border-label=" Manage Repositories with Changes " --prompt=" " )
+
+    if [[ ${choice} != "" && ${choice} != "exit (or esc)" ]]; then
+        lazygit --path="$(echo "${repos_path}/${choice}" | awk '{print $1}')"
+        mapfile -t gita_ll < <(retrieve_gita_status)
+    fi
+done
+
+# Vim options - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# vim:fileencoding=utf-8:foldmethod=marker
