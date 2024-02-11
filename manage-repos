@@ -42,7 +42,7 @@ fi
 
 # |- Prompt user to manage repos ->
 choice="notempty"
-while [[ ${choice} != "" && ${choice} != "exit (or esc)" && "${#gita_ll[@]}" -ge 0 ]]; do
+while [[ ${choice} != "" && ${choice} != "exit (or esc)" && "${#gita_ll[@]}" -gt 0 ]]; do
     fzf_options=("${gita_ll[@]}")
     fzf_options+=("exit (or esc)")
 
