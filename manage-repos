@@ -36,9 +36,7 @@ repos_path="${HOME}/Repos"
 mapfile -t gita_ll < <(retrieve_gita_status)
 
 if [[ "${#gita_ll[@]}" -le 0 ]]; then
-    echo
     echo -e "${cyan}All of your repositories are up to date!${reset}"
-    echo
     exit 0
 fi
 
