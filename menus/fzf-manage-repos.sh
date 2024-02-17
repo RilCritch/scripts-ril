@@ -26,7 +26,7 @@
 
 # Functions - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 retrieve_gita_status() {
-    gita ll --no-colors | grep '\[[^]]\+\]' | awk '{print $1, $3}'
+    gita ll | grep '\[.\]' | awk '{print $1, $3}'
 }
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -37,6 +37,7 @@ mapfile -t gita_ll < <(retrieve_gita_status)
 
 if [[ "${#gita_ll[@]}" -le 0 ]]; then
     echo -e "${cyan}All of your repositories are up to date!${reset}"
+    read -r -p "Press enter to quit"
     exit 0
 fi
 
@@ -46,7 +47,7 @@ while [[ ${choice} != "" && ${choice} != "exit (or esc)" && "${#gita_ll[@]}" -gt
     fzf_options=("${gita_ll[@]}")
     fzf_options+=("exit (or esc)")
 
-    choice=$(printf "%s\n" "${fzf_options[@]}" | fzf --border-label=" Manage Repositories with Changes " --prompt=" " )
+    choice=$(printf "%s\n" "${fzf_options[@]}" | fzf --height=100% --border-label=" Manage Repositories with Changes " --prompt=" " )
 
     if [[ ${choice} != "" && ${choice} != "exit (or esc)" ]]; then
         lazygit --path="$(echo "${repos_path}/${choice}" | awk '{print $1}')"

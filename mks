@@ -31,7 +31,7 @@ if [[ ! -d "${DIRECTORY}" ]]; then
 
     echo "To create this path the follow command may be run:"
     echo -e "'${cyan}mkdir -p ${blue}${DIRECTORY}${reset}'"
-    read -p "Do you want to run this command? [Y/n] " DOWNLOAD
+    read -p -r "Do you want to run this command? [Y/n] " DOWNLOAD
 
     if [[ -z "${DOWNLOAD}" || "${DOWNLOAD}" == "Y" || "${DOWNLOAD}" == "y" ]]; then
         mkdir -p "${DIRECTORY}"
@@ -44,54 +44,69 @@ echo
 
 
 # create executable bash script
-touch ${FILE_NAME}
-echo '#!/usr/bin/env bash' > ${FILE_NAME}
-echo '' >> ${FILE_NAME}
+touch "${FILE_NAME}"
 
-echo '# Description ->' >> ${FILE_NAME}
-echo '#' >> ${FILE_NAME}
+echo '#!/usr/bin/env bash' > "${FILE_NAME}"
+echo '' >> "${FILE_NAME}"
 
-echo '# |- Summary:' >> ${FILE_NAME}
-echo '#             - TODO: script explanation' >> ${FILE_NAME}
-echo '#' >> ${FILE_NAME}
+echo '# General Information ->' >> "${FILE_NAME}"
+echo '# {{{' >> "${FILE_NAME}"
 
-echo '# |- Usage: TODO: script syntax' >> ${FILE_NAME}
-echo '#       * Options:' >> ${FILE_NAME}
-echo '#             - TODO: script options/flags' >> ${FILE_NAME}
-echo '#       * Environ:' >> ${FILE_NAME}
-echo '#             - TODO: environment variables' >> ${FILE_NAME}
-echo '#' >> ${FILE_NAME}
+echo '# |- Summary:' >> "${FILE_NAME}"
+echo '#       * Overview:' >> "${FILE_NAME}"
+echo '#             - TODO: quick overview of script' >> "${FILE_NAME}"
+echo '#       * Sections:' >> "${FILE_NAME}"
+echo '#             - TODO: part n' >> "${FILE_NAME}"
+echo '#' >> "${FILE_NAME}"
 
-echo '# |- Dependencies:' >> ${FILE_NAME}
-echo '#             - TODO: script dependencies' >> ${FILE_NAME}
-echo '' >> ${FILE_NAME}
+echo '# |- Usage: ' >> "${FILE_NAME}"
+echo '#       * General:' >> "${FILE_NAME}"
+echo '#             - TODO: general script usage' >> "${FILE_NAME}"
+echo '#       * Options:' >> "${FILE_NAME}"
+echo '#             - TODO: script options/flags' >> "${FILE_NAME}"
+echo '#       * Environ:' >> "${FILE_NAME}"
+echo '#             - TODO: environment variables' >> "${FILE_NAME}"
+echo '#' >> "${FILE_NAME}"
 
-echo '# Document Info ->' >> ${FILE_NAME}
-echo '#' >> ${FILE_NAME}
+echo '# |- Dependencies:' >> "${FILE_NAME}"
+echo '#       * External:' >> "${FILE_NAME}"
+echo '#             - TODO: external dependency n' >> "${FILE_NAME}"
+echo '#       * Internal:' >> "${FILE_NAME}"
+echo '#             - TODO: internal dependency n' >> "${FILE_NAME}"
+echo '#' >> "${FILE_NAME}"
 
-echo "# |- Author: ${RCS_USERNAME}" >> ${FILE_NAME}
-echo '#' >> ${FILE_NAME}
-
+echo '# |- Document Info:' >> "${FILE_NAME}"
+echo "#       * Author: ${RCS_NAME}" >> "${FILE_NAME}"
 CURRENT_DATE=$(date +%m/%d/%Y)
-echo "# |- Last Update: ${CURRENT_DATE}" >> ${FILE_NAME}
+echo "#       * Last Update: ${CURRENT_DATE}" >> "${FILE_NAME}"
+echo '# }}}' >> "${FILE_NAME}"
+echo '' >> "${FILE_NAME}"
+echo '' >> "${FILE_NAME}"
 
-echo '' >> ${FILE_NAME}
-echo "# Imports - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> ${FILE_NAME}
-echo "# TODO: source files if needed" >> ${FILE_NAME}
-echo "# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> ${FILE_NAME}
-echo "" >> ${FILE_NAME}
+echo "# Imports ->" >> "${FILE_NAME}"
+echo "# {{{" >> "${FILE_NAME}"
+echo "# TODO: source files if needed" >> "${FILE_NAME}"
+echo "# }}}" >> "${FILE_NAME}"
+echo "" >> "${FILE_NAME}"
+echo "" >> "${FILE_NAME}"
 
-echo -e "\n# |- Comment ->\n" >> ${FILE_NAME}
-echo "# TODO: Place shell here" >> ${FILE_NAME}
+echo "# Script ->" >> "${FILE_NAME}"
+echo "" >> "${FILE_NAME}"
 
-echo "" >> ${FILE_NAME}
+echo "# |- Comment ->" >> "${FILE_NAME}"
+echo "" >> "${FILE_NAME}"
+echo "# TODO: Place shell here" >> "${FILE_NAME}"
 
-echo -e "\n# |- Comment ->\n" >> ${FILE_NAME}
-echo "# TODO: Place shell here" >> ${FILE_NAME}
+echo "" >> "${FILE_NAME}"
 
-echo -e "\n" >> ${FILE_NAME}
-echo "# Vim options - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -" >> ${FILE_NAME}
-echo '# vim:fileencoding=utf-8:foldmethod=marker' >> ${FILE_NAME}
+echo "# |- Comment ->" >> "${FILE_NAME}"
+echo "" >> "${FILE_NAME}"
+echo "# TODO: Place shell here" >> "${FILE_NAME}"
+
+echo "" >> "${FILE_NAME}"
+echo "" >> "${FILE_NAME}"
+echo "# Vim options ->" >> "${FILE_NAME}"
+echo '# vim:fileencoding=utf-8:foldmethod=marker' >> "${FILE_NAME}"
 
 chmod +x "${FILE_NAME}"
 
