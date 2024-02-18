@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+
+# General Information ->
+# {{{
+# |- Summary:
+#       * Overview:
+#             - TODO: quick overview of script
+#       * Sections:
+#             - TODO: part n
+#
+# |- Usage: 
+#       * General:
+#             - TODO: general script usage
+#       * Options:
+#             - TODO: script options/flags
+#       * Environ:
+#             - TODO: environment variables
+#
+# |- Dependencies:
+#       * External:
+#             - TODO: external dependency n
+#       * Internal:
+#             - TODO: internal dependency n
+#
+# |- Document Info:
+#       * Author: RilCritch
+#       * Last Update: 02/17/2024
+# }}}
+
+
+# Imports ->
+# {{{
+. "${BASH_HOME}"/ansi_escape_sequences
+# }}}
+
+
+# Script ->
+
+# |- Colors -> {{{
+
+c0=${black}
+c1=${red}
+c2=${green}
+c3=${yellow}
+c4=${blue}
+c5=${magenta}
+c6=${cyan}
+c7=${white}
+c8=${l_black}
+c9=${l_red}
+c10=${l_green}
+c11=${l_yellow}
+c12=${l_blue}
+c13=${l_magenta}
+c14=${l_cyan}
+c15=${l_white}
+
+# }}}
+
+# |- Colored Output -> {{{
+
+echo -e "${c0}╭─┬─╮ ${c1}╭─┬─╮ ${c2}╭─┬─╮ ${c3}╭─┬─╮ ${c4}╭─┬─╮ ${c5}╭─┬─╮ ${c6}╭─┬─╮ ${c7}╭─┬─╮"
+echo -e "${c0}├─┼─┤ ${c1}├─┼─┤ ${c2}├─┼─┤ ${c3}├─┼─┤ ${c4}├─┼─┤ ${c5}├─┼─┤ ${c6}├─┼─┤ ${c7}├─┼─┤"
+echo -e "${c0}╰─┴─╯ ${c1}╰─┴─╯ ${c2}╰─┴─╯ ${c3}╰─┴─╯ ${c4}╰─┴─╯ ${c5}╰─┴─╯ ${c6}╰─┴─╯ ${c7}╰─┴─╯"
+
+# ${c4}╭─┬─╮ ${c5}╭─┬─╮ ${c6}╭─┬─╮ ${c7}╭─┬─╮
+# ${c4}├─┼─┤ ${c5}├─┼─┤ ${c6}├─┼─┤ ${c7}├─┼─┤
+# ${c4}╰─┴─╯ ${c5}╰─┴─╯ ${c6}╰─┴─╯ ${c7}╰─┴─╯
+
+# }}}
+
+# Vim options ->
+# vim:fileencoding=utf-8:foldmethod=marker

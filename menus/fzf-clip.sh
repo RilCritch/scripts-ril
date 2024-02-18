@@ -1,11 +1,19 @@
 #!/usr/bin/env bash
 
-# Set fzf values so this works when run from window manager
 export FZF_DEFAULT_OPTS="--header-first \
---reverse --no-scrollbar --border \
---prompt=' ' --pointer='▶' --marker='󱦰' \
---color='fg:0,fg+:7,bg:-1,bg+:-1,\
-hl:-1,hl+:6,info:15,border:8,header:4,\
-prompt:6,pointer:4,spinner:3'"
+--reverse --border-label-pos=2 -i \
+--no-scrollbar --border --height=100% \
+--prompt='󱘟 ' --pointer='' --marker='󰮺' \
+--color='\
+fg:black,fg+:-1,preview-fg:white,\
+bg:-1,bg+:-1,preview-bg:-1,\
+hl:cyan:dim,hl+:blue:underline,\
+query:cyan,disabled:cyan:dim,\
+prompt:cyan:dim,pointer:blue,marker:blue:dim,\
+info:bright-white,spinner:yellow,\
+border:white,separator:bright-black:dim,scrollbar:8:dim,\
+header:cyan,label:blue:bold,preview-label:cyan'"
 
 clipcat-menu
+
+exit

@@ -5,7 +5,7 @@
 
 
 # Colors
-source "${HOME}/Data/styles"
+source "${BASH_HOME}/ansi_escape_sequences"
 
 
 # Set path and file name #
@@ -111,4 +111,5 @@ echo '# vim:fileencoding=utf-8:foldmethod=marker' >> "${FILE_NAME}"
 chmod +x "${FILE_NAME}"
 
 echo -e "${cyan}Successfully create executable script!${reset}"
-echo -e "Location: ${blue}${FILE_NAME}"
+SCRIPT_PATH=$(realpath "${FILE_NAME}")
+echo -e "Location: ${blue}${SCRIPT_PATH}${reset}\n"
